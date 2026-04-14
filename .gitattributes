@@ -22,12 +22,3 @@
 *.pth binary
 *.pkl binary
 *.h5 binary
-
-# Language Statistics Overrides
-# This tells GitHub to ignore these folders/files in the language bar
-Static/* linguist-vendored
-*.html linguist-vendored
-*.css linguist-vendored
-
-# You can also explicitly mark your app folder as the main focus
-app/*.py linguist-detectable
