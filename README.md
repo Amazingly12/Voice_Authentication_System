@@ -5,6 +5,7 @@ A secure voice authentication system built with FastAPI that uses voice biometri
 How it works
 -
 <ins>ENROLL USER</ins>: Provide a username and upload a '.wav' file, **On Windows To Upload a File** Record audio on **Sound Recorder** in a '.wav' format.
+
 <ins>VERIFY USER</ins>: User requests a random phrase, browser records the user speaking. Verifies using mfcc, Transcribes recording using Whisper and compares transcription to expected phrase.
 
 Security Measures
