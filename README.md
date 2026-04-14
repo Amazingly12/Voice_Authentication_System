@@ -82,8 +82,13 @@ This Project uses MongoDB Compass as primary data store.
      ```Text
      mongodb://localhost:27017
      ```
-   - Click Connect.
+   - Click "Connect".
 3. The Database will automatically create a database (it should be named as VoiceAuthDB).
+
+MongoDB Interface
+-
+![MongoDB Setup](Screenshots/MongoDB_Setup.png)
+
 
 Run the Application
 -
