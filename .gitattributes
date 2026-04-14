@@ -1,0 +1,24 @@
+# 1. Force consistent line endings (LF) for all text files
+# This prevents issues if you're on Windows and a collaborator is on Linux/Mac
+* text=auto eol=lf
+
+# 2. Specifically mark code and web files
+*.py text
+*.html text
+*.css text
+*.md text
+*.txt text
+
+# 3. Handle binary files (images, icons)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+
+# 4. If you use Machine Learning models or Audio samples, 
+# treat them as binary to prevent Git from trying to "fix" them
+*.wav binary
+*.mp3 binary
+*.pth binary
+*.pkl binary
+*.h5 binary
