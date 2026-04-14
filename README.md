@@ -85,3 +85,7 @@ After Installing Requirements, Creating your own local Database on MongoDB, you 
 ```Text
 #Ensure you are in the correct Directory (Project_VA) and have the .venv activated.
 uvicorn app.main:app --reload
+```
+
+Screenshots
+-
