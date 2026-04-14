@@ -2,9 +2,14 @@
 
 A secure voice authentication system built with FastAPI that uses voice biometrics and challenge-response verification to authenticate users. Users are enrolled by uploading voice samples, and verified by speaking randomly generated phrases checked for both speaker identity and phrase accuracy.
 
+How it works
+-
+<ins>ENROLL USER</ins>: Provide a username and upload a '.wav' file, **On Windows To Upload a File** Record audio on **Sound Recorder** in a '.wav' format.
+<ins>VERIFY USER</ins>: User requests a random phrase, browser records the user speaking. Verifies using mfcc, Transcribes recording using Whisper and compares transcription to expected phrase.
+
 Security Measures
 -
-Challenges restricts pre-recorded playback. System verifies and nullifies AI voice assistants. Whisper adds robustness to transcription across accents and noise.
+Written Challenges restricts pre-recorded playback. System verifies and nullifies AI voice assistants. Whisper adds robustness to transcription across accents and noise.
 
 Features
 -
@@ -47,8 +52,6 @@ Project Voice_Authentication/
 
 Setup Instructions
 -
-[![Clone this repo](https://img.shields.io/badge/Clone-This_Repo-blue?style=for-the-badge&logo=github)](https://github.com/Amazingly12/Voice_Authentication_System/archive/refs/heads/main.zip)
-
 1. Clone the Repository.
    ```Text
     git clone [https://github.com/Amazingly12/Voice_Authentication_System.git](https://github.com/Amazingly12/Voice_Authentication_System.git)
