@@ -49,18 +49,39 @@ Setup Instructions
 -
 [![Clone this repo](https://img.shields.io/badge/Clone-This_Repo-blue?style=for-the-badge&logo=github)](https://github.com/Amazingly12/Voice_Authentication_System/archive/refs/heads/main.zip)
 
+1. Clone the Repository.
+   ```Text
+    git clone [https://github.com/Amazingly12/Voice_Authentication_System.git](https://github.com/Amazingly12/Voice_Authentication_System.git)
+    ```
+
+2. Go into Project Directory, Create and activate a virtual environment.
+   ```Text
+   cd Project_VA
+   python -m venv .venv
+   .\.venv\Scripts\activate   
+   ```
+
+3. Install requirements and Dependencies.
+   ```Text
+   pip install -r requirements.txt
+   ```
+
+Database Setup
+-
+This Project uses MongoDB Compass as primary data store.
+1. Install MongoDB Compass: [Download here](https://www.mongodb.com/try/download/shell).
+2. Connection: Open MongoDB Compass.
+   - Click "New Connection".
+   - Paste the following link:
+     ```Text
+     mongodb://localhost:27017
+     ```
+   - Click Connect.
+3. The Database will automatically create a database (it should be named as VoiceAuthDB).
+
+Run the Application
+-
+After Installing Requirements, Creating your own local Database on MongoDB, you can run the application
 ```Text
-# Clone the repository
-git clone [https://github.com/Amazingly12/Voice_Authentication_System.git](https://github.com/Amazingly12/Voice_Authentication_System.git)
-
-# Navigate into the project directory
-cd Project VA
-
-# Create a virtual environment
-python -m venv .venv
-
-# Activate the environment (Windows)
-.\.venv\Scripts\activate
-
-# Install requirements
-pip install -r requirements.txt
+#Ensure you are in the correct Directory (Project_VA) and have the .venv activated.
+uvicorn app.main:app --reload
