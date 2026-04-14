@@ -4,23 +4,22 @@ A secure voice authentication system built with FastAPI that uses voice biometri
 
 How it works
 -
-<ins>ENROLL USER</ins>: Provide a username and upload a '.wav' file, **On Windows To Upload a File** Record audio on **Sound Recorder** in a '.wav' format.
+<ins>ENROLL USER</ins>: Provide a username and upload a '.wav' file, **On Windows To Upload a File** Record audio in **Sound Recorder** in a '.wav' format.
 
-<ins>VERIFY USER</ins>: User requests a random phrase, browser records the user speaking. Verifies using mfcc, Transcribes recording using Whisper and compares transcription to expected phrase.
+<ins>VERIFY USER</ins>: User requests a random phrase (a challenge), browser records the user speaking. Verifies using mfcc, Transcribes recording using Whisper and compares transcription to expected given phrase.
 
 Security Measures
 -
-Written Challenges restricts pre-recorded playback. System verifies and nullifies AI voice assistants. Whisper adds robustness to transcription across accents and noise.
+Written challenges restricts pre-recorded playback. System verifies and nullifies AI voice assistants. Whisper adds robustness to transcription across accents and noise.
 
 Features
 -
-- Voice-based user authentication
-- Live microphone recording via browser
-- Challenge phrase validation
-- Speech-to-text transcription using OpenAI Whisper
-- MongoDB database for storing user voiceprints
-- Clean HTML UI with a minimal dark theme
-- FastAPI (Python)
+- Voice-based user authentication.
+- Live microphone recording via browser.
+- Challenge phrase validation.
+- Speech-to-text transcription using OpenAI Whisper.
+- MongoDB database for storing user voiceprints.
+- FastAPI (Python).
 
 Languages & Tools
 -
@@ -36,7 +35,8 @@ Project Structure
 ```text
 Project Voice_Authentication/
 ├── Project_VA/
-│   ├── Screenshots/ 
+│   ├── Screenshots/
+│   │   ├── MongoDB_Setup.png
 │   │   └── Page_View.png
 │   ├── recordings/ 
 │   │   └── Instructions.md
@@ -72,12 +72,12 @@ Setup Instructions
    pip install -r requirements.txt
    ```
 
-Database Setup
+Database Setup (MongoDB)
 -
 This Project uses MongoDB Compass as primary data store.
 1. Install MongoDB Compass: [Download here](https://www.mongodb.com/try/download/shell).
 2. Connection: Open MongoDB Compass.
-   - Click "New Connection".
+   - Click "New Connection" or "+ Add New Connection".
    - Paste the following link:
      ```Text
      mongodb://localhost:27017
@@ -92,9 +92,9 @@ MongoDB Interface
 
 Run the Application
 -
-After Installing Requirements, Creating your own local Database on MongoDB, you can run the application
+After installing requirements and creating your own local database on MongoDB, you can run the application.
 ```Text
-#Ensure you are in the correct Directory (Project_VA) and have the .venv activated.
+#Ensure you are in the correct Directory (Project_VA) and have the (.venv) activated.
 uvicorn app.main:app --reload
 ```
 
