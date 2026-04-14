@@ -36,6 +36,8 @@ Project Structure
 ```text
 Project Voice_Authentication/
 ├── Project_VA/
+│   ├── Screenshots/ 
+│   │   └── Page_View.png
 │   ├── recordings/ 
 │   │   └── Instructions.md
 │   ├── Static
