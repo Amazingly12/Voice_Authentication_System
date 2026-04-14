@@ -1,0 +1,286 @@
+/* 1. Import the font at the very top */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+/* 2. Apply to every element and ensure boxes are sized correctly */
+* {
+    font-family: 'DM Sans', sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: #0d0d0d;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: flex-start; 
+    overflow: hidden;
+}
+
+/* 3. Header Style */
+.main-header {
+    position: relative;
+    z-index: 10; 
+    padding: 40px 0 20px 0; 
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 700; /* Bolder weight for DM Sans */
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.main-header:hover{
+    color: #408A71; /* Glow effect matching your blue blob */
+    cursor: pointer;
+}
+
+/* 4. Background Blob Logic */
+.blob-bg {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; 
+    overflow: hidden;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.5
+}
+
+/* Specific Blob Positions */
+.blob-pink {
+    width: 400px; height: 400px;
+    background: linear-gradient(135deg, #285A48, #B0E4CC);
+    top: -100px; left: -150px;
+}
+.blob-blue {
+    width: 350px; height: 350px;
+    background: linear-gradient(135deg, #285A48, #B0E4CC);
+    bottom: -50px; left: 10%;
+}
+.blob-green {
+    width: 300px; height: 450px;
+    background: linear-gradient(135deg, #285A48, #B0E4CC);
+    right: -100px; top: 20%;
+}
+.blob-yellow {
+    width: 300px; height: 300px;
+    background: linear-gradient(135deg, #285A48, #B0E4CC);
+    bottom: -100px; right: 10%;
+}
+
+/* 5. Card Wrapper & Container */
+.card-wrapper {
+    position: relative;
+    width: 400px;
+    height: 85vh; /* Adjusted to fit header + screen */
+    display: flex;
+    align-items: flex-start;
+    z-index: 5;
+    margin-top: 10px;
+}
+
+.card-container {
+    position: relative;
+    width: 100%;
+    height: 100%; 
+    z-index: 1;
+    perspective: 1200px;
+}
+
+.card {
+    position: absolute;
+    width: 100%;
+    height: 100%; 
+    background: #1a1a1a;
+    border-radius: 25px;
+    padding: 40px 30px; 
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    border: 1px solid #333;
+    backface-visibility: hidden;
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow-y: auto; 
+}
+
+/* --- STATE 1: DEFAULT STACKING --- */
+.card.active {
+    z-index: 5;
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.card:not(.active) {
+    z-index: 1;
+    transform: translateX(45px) translateY(25px);
+    opacity: 0.5;
+}
+
+/* --- STATE 2: SMART HOVER --- */
+.card-container:has(.card:not(.active):hover) .card.active {
+    transform: translateX(-130px) rotateY(-5deg);
+}
+
+.card:not(.active):hover {
+    transform: translateX(130px) rotateY(5deg) !important;
+    opacity: 1;
+    z-index: 10;
+}
+
+/* --- 6. Form Elements --- */
+/* Explicitly setting inputs/buttons to inherit font */
+input, button, textarea {
+    font-family: 'DM Sans', sans-serif;
+}
+
+.card-header h2 { 
+    font-size: 1.1rem; 
+    letter-spacing: 2px; 
+    margin: 0; 
+    text-transform: uppercase; 
+    font-weight: 700;
+}
+
+label { 
+    display: block; 
+    margin: 15px 0 5px; 
+    font-size: 0.75rem; 
+    color: #888; 
+    text-transform: uppercase; 
+    font-weight: 700;
+}
+
+input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #333;
+    color: white;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    outline: none;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: transparent;
+    border: 1.5px solid white;
+    color: white;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-top: 25px;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.submit-btn:hover {
+    background: #333;
+    border-color: #285A48; /* Glow effect matching your blue blob */
+    box-shadow: 0 0 10px #B0E4CC;
+}
+
+.challenge-box {
+    background: #222;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+}
+
+/* Scrollbar */
+.card::-webkit-scrollbar { width: 5px; }
+.card::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+/* Container for the file input to add spacing */
+input[type="file"] {
+    color: #888; /* Color of the "No file chosen" text */
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+/* The actual "Choose File" button */
+input[type="file"]::file-selector-button {
+    background: transparent;
+    border: 1px solid #555;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-right: 15px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background: #333;
+    border-color: #285A48; /* Glow effect matching your blue blob */
+    /* box-shadow: 0 0 10px #B0E4CC; */
+}
+
+/* Target the specific action buttons */
+#getChallengeBtn, #startRecordingBtn {
+    background: #222;
+    color: white;
+    border: 1px solid #444;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+}
+
+#getChallengeBtn:hover, #startRecordingBtn:hover {
+    background: #333;
+    border-color: #285A48; /* Glow effect matching your blue blob */
+    /* box-shadow: 0 0 10px #B0E4CC; */
+}
+
+/* Optional: Style the text below the buttons (Challenge/Status) */
+#challengeDisplay, #recordingStatus {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin: 5px 0 15px 0;
+}
+
+.challenge-box {
+    background: rgba(255, 255, 255, 0.05); /* Very subtle transparency */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+    text-align: left;
+}
+
+/* This targets the browser's autofill style */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+    /* Changes the text color to white */
+    -webkit-text-fill-color: white !important;
+    
+    /* Removes the white background and uses your card color instead */
+    -webkit-box-shadow: 0 0 0px 1000px #1a1a1a inset !important;
+    
+    /* Smooth transition for the font */
+    transition: background-color 5000s ease-in-out 0s;
+    font-family: 'DM Sans', sans-serif !important;
+}
+
+/* Optional: To turn off the "dropbox" suggestions entirely */
+/* Add autocomplete="off" to your <input> tags in Unified_Html.html */

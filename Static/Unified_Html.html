@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Voice Authentication System</title>
+    <link rel="stylesheet" href="/Static/CSS_Styling.css">
+</head>
+<body>  
+    <div class="blob-bg">
+        <div class="blob blob-pink"></div>
+        <div class="blob blob-blue"></div>
+        <div class="blob blob-green"></div>
+        <div class="blob blob-yellow"></div>
+    </div>
+
+    <header class="main-header">
+        VOICE AUTHENTICATION SYSTEM
+    </header>
+
+    <div class="card-wrapper">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+
+        <div class="card-container">
+            <div class="card verification-card" id="verificationCard">
+                <div class="card-header">
+                    <h2><span class="back-arrow"> ← </span> VERIFICATION</h2><hr style="background-color: #555; height: 2px; border: none;">
+                </div>
+                <div class="card-overlay"></div>
+                <div class="form-content">
+                    <label>Your Name:</label>
+                    <input type="text" id="verify_name" placeholder="Enter name">
+                    
+                    <div class="challenge-box">
+                        <button id="getChallengeBtn">Get Challenge</button>
+                        <p id="challengeDisplay">Challenge: Not fetched</p>
+                    </div>
+
+                    <button id="startRecordingBtn" class="action-btn">Start Recording</button>
+                    <p id="recordingStatus">Not recording</p>
+
+                    <button id="verifyBtn" class="submit-btn">VERIFY</button>
+                    <p id="result"></p>
+                </div>
+            </div>
+
+            <div class="card enrollment-card active" id="enrollmentCard">
+                <div class="card-header">
+                    <h2><span class="back-arrow">←</span> ENROLLMENT</h2><hr style="background-color: #555; height: 2px; border: none;">
+                </div>
+
+                <div class="card-overlay"></div>
+                <form id="enrollForm" class="form-content">
+                    <label>Name:</label>
+                    <input type="text" name="name" required placeholder="Enter Student's Name">
+
+                    <label>Upload Voice Sample (.wav):</label>
+                    <input type="file" name="voice_sample" accept=".wav" required>
+
+                    <button type="submit" class="submit-btn">ENROLL</button>
+                    <p id="status"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. TOGGLE LOGIC (Card Swapping)
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Don't swap if clicking buttons/inputs
+                if (e.target.closest('button') || e.target.closest('input')) return;
+
+                // Swap the active class
+                cards.forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+            });
+        });
+
+        // 2. ENROLLMENT LOGIC
+        document.getElementById("enrollForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const response = await fetch("http://localhost:8000/enroll", { method: "POST", body: formData });
+            const result = await response.json();
+            document.getElementById("status").textContent = result.message || "Enrollment complete.";
+        });
+
+        // 3. VERIFICATION LOGIC
+        let recordedChunks = [];
+        let mediaRecorder;
+
+        // --- GET CHALLENGE BUTTON ---
+        document.getElementById("getChallengeBtn").addEventListener("click", async () => {
+            try {
+                const response = await fetch("http://localhost:8000/get-challenge");
+                const data = await response.json();
+                // This updates the text in your UI
+                document.getElementById("challengeDisplay").textContent = `Challenge: ${data.challenge}`;
+            } catch (err) {
+                console.error("Fetch error:", err);
+                document.getElementById("challengeDisplay").textContent = "Error: Could not connect to server.";
+            }
+        });
+
+        // --- START RECORDING BUTTON ---
+        document.getElementById("startRecordingBtn").addEventListener("click", async () => {
+            const recordStatus = document.getElementById("recordingStatus");
+            
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                recordedChunks = [];
+                mediaRecorder = new MediaRecorder(stream);
+
+                mediaRecorder.ondataavailable = e => {
+                    if (e.data.size > 0) recordedChunks.push(e.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    stream.getTracks().forEach(track => track.stop());
+                    recordStatus.textContent = "Recording stopped. Ready to verify.";
+                };
+
+                recordStatus.textContent = "Recording... Speak the challenge!";
+                mediaRecorder.start();
+
+                // Stop automatically after 6 seconds
+                setTimeout(() => {
+                    if(mediaRecorder.state === "recording") mediaRecorder.stop();
+                }, 6000); 
+
+            } catch (err) {
+                recordStatus.textContent = "Error: Microphone access denied.";
+                console.error(err);
+            }
+        });
+
+        // --- VERIFY BUTTON ---
+        document.getElementById("verifyBtn").addEventListener("click", async () => {
+            const name = document.getElementById("verify_name").value.trim();
+            const challengeText = document.getElementById("challengeDisplay").textContent;
+            const challenge = challengeText.replace("Challenge: ", "").trim();
+            const resultDisplay = document.getElementById("result");
+
+            if (!name || challenge === "Not fetched" || recordedChunks.length === 0) {
+                alert("Please provide a name, get a challenge, and record your voice.");
+                return;
+            }
+
+            resultDisplay.textContent = "Processing verification...";
+
+            const blob = new Blob(recordedChunks, { type: "audio/wav" });
+            const formData = new FormData();
+            formData.append("name", name);
+            formData.append("challenge_phrase", challenge);
+            formData.append("voice_sample", blob, "voice.wav");
+
+            try {
+                const response = await fetch("http://localhost:8000/verify", {
+                    method: "POST",
+                    body: formData
+                });
+                const result = await response.json();
+                resultDisplay.textContent = result.message || "Unknown result.";
+            } catch (err) {
+                resultDisplay.textContent = "Connection error. Ensure your FastAPI server is running.";
+            }
+        });
+    </script>
+</body>
+</html>
