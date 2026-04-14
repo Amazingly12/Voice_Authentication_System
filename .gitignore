@@ -1,0 +1,18 @@
+# Environments
+.venv/
+env/
+venv/
+pyvenv.cfg
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Data & Privacy
+recordings/*
+Sound Recordings/*
+!recordings/.gitkeep
+
+# Databases
+*.sqlite3
+*.db
