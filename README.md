@@ -17,6 +17,7 @@ Features
 - Voice-based user authentication.
 - Live microphone recording via browser.
 - Challenge phrase validation.
+- Spectral-analysis.
 - Speech-to-text transcription using OpenAI Whisper.
 - MongoDB database for storing user voiceprints.
 - FastAPI (Python).
